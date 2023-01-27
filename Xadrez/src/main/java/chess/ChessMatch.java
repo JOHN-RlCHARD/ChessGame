@@ -1,6 +1,8 @@
 package chess;
 import board.*;
 import chess.pieces.*;
+import java.util.Random;
+import chess.ChessPosition;
 
 public class ChessMatch {
 
@@ -13,6 +15,12 @@ public class ChessMatch {
     
     public ChessMatch() {
         this.board = new Board(8,8);
+        this.turn = 1;
+        //START WITH RANDOM PLAYER
+        Color[] players = {Color.WHITE, Color.BLACK};
+        this.currentPlayer = players[new Random().nextInt(2)];
+        this.check = false;
+        this.checkMate = false;
     }
     
     public ChessPiece[][] getPieces() {
@@ -28,12 +36,53 @@ public class ChessMatch {
         
     }
     
-    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
-        ChessPiece p = null;
-        if (board.thereIsAPiece(sourcePosition.toPosition())) {
-            p = (ChessPiece)board.removePiece(sourcePosition.toPosition());
-            board.placePiece(p, targetPosition.toPosition());
+    public void promote(String str) throws Exception {
+        
+        String[] strArray = str.split("");
+        char column = strArray[0].charAt(0);
+        int row = Integer.valueOf(strArray[1]);
+        
+        //CASE POSITION DOESNT EXISTS
+        if (column < 'a' || column > 'h' || row < 1 || row > 8) throw new BoardException("Position does not exist.");
+        
+        ChessPiece p = (ChessPiece) this.board.piece(new ChessPosition(column, row).toPosition());
+        
+        //CASE POSITION DOESNT HAVE PIECE
+        if(p==null) throw new BoardException("There is no piece on that position");
+        
+        //CASE PIECE FROM OTHER PLAYER
+        if (p.getColor()!=this.currentPlayer) throw new ChessException("Not your piece.");
+        
+        //CASE NO POSSIBLE MOVE FOR PIECE
+        boolean isThereAPossibleMove = false;
+        boolean[][] possibleMoves = p.possibleMoves();
+        for (int i=0; i<possibleMoves.length; i++) {
+            for (int j=0; j<possibleMoves[0].length; j++) {
+                if (possibleMoves[i][j] == true) isThereAPossibleMove = true;
+            }
         }
+        if (isThereAPossibleMove == false) throw new ChessException("There is no possible move for that piece.");
+        
+        //IF ALL CASES PASS
+        this.promoted = p;
+        UI.printBoard(this.getPieces(), possibleMoves);
+        
+    }
+    
+    public ChessPiece performChessMove(ChessPosition targetPosition) throws Exception {
+        ChessPiece p = null;
+        if (!board.thereIsAPiece(this.promoted.getPosition())) throw new BoardException("Source position not valid.");
+        
+        boolean possibleMoves[][] =  this.promoted.possibleMoves();
+        
+        Position position = targetPosition.toPosition();
+        
+        if (possibleMoves[position.getRow()][position.getColumn()] == false)
+            throw new ChessException("Invalid Movement");
+        
+        p = (ChessPiece)board.removePiece(this.promoted.getPosition());
+        board.placePiece(p, targetPosition.toPosition());
+            
         return p;
     }
     
@@ -84,6 +133,24 @@ public class ChessMatch {
         this.board.placePiece(
             new King(this.board,Color.BLACK),
             new ChessPosition('d',8).toPosition());
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void increaseTurn() {
+        this.turn++;
+    }
+    
+    public void switchPlayer() {
+        if (this.currentPlayer == Color.BLACK) this.currentPlayer = Color.WHITE;
+        else this.currentPlayer = Color.BLACK;
+        increaseTurn();
+    }
+    
+    public Color getCurrentPlayer() {
+        return this.currentPlayer;
     }
     
 }

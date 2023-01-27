@@ -80,4 +80,20 @@ public class UI {
         System.out.print("\033[H\033[2J");System.out.flush();
     }
     
+    public static void printTurn(Color player) {
+        if (player == Color.WHITE) {
+            System.out.println("");
+            System.out.println("- "+ANSI_WHITE+"PLAYER 1(WHITE)"+ANSI_RESET+" TURN -");
+            System.out.println("");
+        } else {
+            System.out.println("");
+            System.out.println("- "+ANSI_YELLOW+"PLAYER 2"+"(BLACK)"+ANSI_RESET+" TURN -");
+            System.out.println("");
+        }
+    }
+    
+    public static void printInstructions() {
+        System.out.println("Type the piece location to make a move.\nFormat example: e2\nOr type EXIT to leave game.");
+    }
+    
 }
