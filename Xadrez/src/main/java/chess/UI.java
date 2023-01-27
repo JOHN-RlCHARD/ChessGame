@@ -43,6 +43,29 @@ public class UI {
         System.out.println("");
     }
     
+    public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+        
+        System.out.println("");
+        char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+        for (int i=0; i<pieces.length; i++) {
+            System.out.println("");
+            for (int j=0;j<pieces[0].length;j++) {
+                
+                if (j==0) System.out.print((8-i)+" ");
+                if (possibleMoves[i][j]) System.out.print(ANSI_BLUE_BACKGROUND);
+                if (pieces[i][j] == null) System.out.print("- ");
+                else printPiece(pieces[i][j]);
+                if (possibleMoves[i][j]) System.out.print(ANSI_RESET);
+            }
+        }
+        System.out.println("");
+        for (int i=0; i<letters.length;i++) {
+            if (i==0) System.out.print("  ");
+            System.out.print(letters[i]+" ");
+        }
+        System.out.println("");
+    }
+    
     private static void printPiece(ChessPiece piece) {
         
         if(piece.getColor() == Color.WHITE) {

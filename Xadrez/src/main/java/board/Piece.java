@@ -2,7 +2,7 @@ package board;
 
 public abstract class Piece {
 
-    protected Position position;
+    protected Position position = null;
     protected Board board;
     
     public Piece(Board board) {

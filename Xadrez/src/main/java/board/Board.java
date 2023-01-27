@@ -1,4 +1,5 @@
 package board;
+import chess.*;
 
 public class Board {
 
@@ -23,11 +24,12 @@ public class Board {
         return pieces[position.getRow()][position.getColumn()];
     }
     
-    public void placePiece(Piece piece, Position position) {
+    public void placePiece(ChessPiece piece, Position position) {
         pieces[position.getRow()][position.getColumn()] = piece;
+        piece.setPosition(position);
     }
 
-    public boolean positionExistis(Position position) {
+    public boolean positionExists(Position position) {
         if (
             position.getRow() < 0 ||
             position.getRow() > getRows() ||
@@ -38,7 +40,7 @@ public class Board {
     }
     
     public boolean thereIsAPiece(Position position) {
-        if (!positionExistis(position)) return false;
+        if (!positionExists(position)) return false;
         if (piece(position)==null) return false;
         return true;
     }

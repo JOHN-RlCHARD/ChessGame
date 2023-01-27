@@ -38,17 +38,9 @@ public class ChessMatch {
     }
     
     public boolean[][] possibleMoves(ChessPosition sourcePosition) {
-        boolean[][] moves = null;
         ChessPiece p = (ChessPiece)board.piece(sourcePosition.toPosition());
-        Position position = sourcePosition.toPosition();
-        int r = position.getRow();
-        int c = position.getColumn();
-        if (p.getClass() == Rook.class) {
-            
-        } else {
-            
-        };
-        return moves;
+        
+        return p.possibleMoves();
     }
     
     public void initialSetup() {

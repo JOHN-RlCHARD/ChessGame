@@ -11,12 +11,12 @@ public class Xadrez {
         UI.printBoard(match.getPieces());
         
         match.performChessMove(
-                new ChessPosition('c', 8), 
-                new ChessPosition('c', 2));
+                new ChessPosition('e', 2), 
+                new ChessPosition('d', 4));
         
         UI.printBoard(match.getPieces());
         
-        match.possibleMoves(new ChessPosition('d', 1));
+        UI.printBoard(match.getPieces(), match.possibleMoves(new ChessPosition('d', 2)));
         
     }
 }
