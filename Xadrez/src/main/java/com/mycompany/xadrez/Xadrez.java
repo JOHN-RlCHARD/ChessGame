@@ -2,6 +2,7 @@ package com.mycompany.xadrez;
 import chess.*;
 import board.*;
 import java.util.*;
+import chess.ChessPiece;
 
 public class Xadrez {
 
@@ -56,9 +57,21 @@ public class Xadrez {
                                 char column2 = strArray[0].charAt(0);
                                 int row2 = Integer.valueOf(strArray[1]);
                                 
-                                match.performChessMove(new ChessPosition(column2, row2));
+                                ChessPiece removed = match.performChessMove(new ChessPosition(column2, row2));
+                                
+                                //LOGIC TO PLAY AGAIN IF A ENEMY PIECE IS REMOVED, BUT ONLY ONCE
+                                if (removed == null) {
+                                    match.setLastPlayer(match.getCurrentPlayer());
+                                    match.switchPlayer();
+                                } else {
+                                    if (match.getLastPlayer() == match.getCurrentPlayer()) {
+                                        match.switchPlayer();
+                                    } else {
+                                        match.setLastPlayer(match.getCurrentPlayer());
+                                    }
+                                }
                                 done = true;
-                                match.switchPlayer();
+                                
                             } catch (Exception e) {System.out.println(e);}
                         } else done = true;
                         

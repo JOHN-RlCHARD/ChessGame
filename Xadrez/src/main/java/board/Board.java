@@ -32,9 +32,9 @@ public class Board {
     public boolean positionExists(Position position) {
         if (
             position.getRow() < 0 ||
-            position.getRow() > getRows() ||
+            position.getRow() > 7 ||
             position.getColumn() < 0 ||
-            position.getColumn() > getColumns()
+            position.getColumn() > 7
             ) return false;
         return true;
     }

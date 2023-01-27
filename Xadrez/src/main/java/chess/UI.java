@@ -34,6 +34,13 @@ public class UI {
                 if (pieces[i][j] == null) System.out.print("- ");
                 else printPiece(pieces[i][j]);
             }
+            if (i==0) System.out.print("\t\t"+ANSI_PURPLE+"INFORMATION:"+ANSI_RESET);
+            else if (i==1) System.out.print("\t\t"+ANSI_PURPLE+"K - King"+ANSI_RESET);
+            else if (i==2) System.out.print("\t\t"+ANSI_PURPLE+"Q - QUEEN"+ANSI_RESET);
+            else if (i==3) System.out.print("\t\t"+ANSI_PURPLE+"P - PAWN"+ANSI_RESET);
+            else if (i==4) System.out.print("\t\t"+ANSI_PURPLE+"B - BISHOP"+ANSI_RESET);
+            else if (i==5) System.out.print("\t\t"+ANSI_PURPLE+"R - ROOK"+ANSI_RESET);
+            else if (i==6) System.out.print("\t\t"+ANSI_PURPLE+"C - KNIGHT"+ANSI_RESET);
         }
         System.out.println("");
         for (int i=0; i<letters.length;i++) {
@@ -57,6 +64,13 @@ public class UI {
                 else printPiece(pieces[i][j]);
                 if (possibleMoves[i][j]) System.out.print(ANSI_RESET);
             }
+            if (i==0) System.out.print("\t\t"+ANSI_PURPLE+"INFORMATION:"+ANSI_RESET);
+            else if (i==1) System.out.print("\t\t"+ANSI_PURPLE+"K - King"+ANSI_RESET);
+            else if (i==2) System.out.print("\t\t"+ANSI_PURPLE+"Q - QUEEN"+ANSI_RESET);
+            else if (i==3) System.out.print("\t\t"+ANSI_PURPLE+"P - PAWN"+ANSI_RESET);
+            else if (i==4) System.out.print("\t\t"+ANSI_PURPLE+"B - BISHOP"+ANSI_RESET);
+            else if (i==5) System.out.print("\t\t"+ANSI_PURPLE+"R - ROOK"+ANSI_RESET);
+            else if (i==6) System.out.print("\t\t"+ANSI_PURPLE+"C - KNIGHT"+ANSI_RESET);
         }
         System.out.println("");
         for (int i=0; i<letters.length;i++) {

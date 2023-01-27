@@ -8,6 +8,7 @@ public class ChessMatch {
 
     private int turn;
     private Color currentPlayer;
+    private Color lastPlayer;
     private boolean check, checkMate;
     private ChessPiece enPessemfVulnerable;
     private ChessPiece promoted;
@@ -70,7 +71,7 @@ public class ChessMatch {
     }
     
     public ChessPiece performChessMove(ChessPosition targetPosition) throws Exception {
-        ChessPiece p = null;
+        ChessPiece removed = null;
         if (!board.thereIsAPiece(this.promoted.getPosition())) throw new BoardException("Source position not valid.");
         
         boolean possibleMoves[][] =  this.promoted.possibleMoves();
@@ -80,10 +81,15 @@ public class ChessMatch {
         if (possibleMoves[position.getRow()][position.getColumn()] == false)
             throw new ChessException("Invalid Movement");
         
-        p = (ChessPiece)board.removePiece(this.promoted.getPosition());
+        ChessPiece p = (ChessPiece)board.removePiece(this.promoted.getPosition());
+        if (board.thereIsAPiece(targetPosition.toPosition())) removed = (ChessPiece) board.removePiece(targetPosition.toPosition());
         board.placePiece(p, targetPosition.toPosition());
+        if (p.getClass() == Pawn.class) {
+            Pawn pawn = (Pawn) p;
+            pawn.setFirstMove();
+        }
             
-        return p;
+        return removed;
     }
     
     public boolean[][] possibleMoves(ChessPosition sourcePosition) {
@@ -95,41 +101,79 @@ public class ChessMatch {
     public void initialSetup() {
 
         //WHITES
+        //ROOKS
         this.board.placePiece(
             new Rook(this.board,Color.WHITE),
-            new ChessPosition('c',1).toPosition());
+            new ChessPosition('a',1).toPosition());
         this.board.placePiece(
             new Rook(this.board,Color.WHITE),
+            new ChessPosition('h',1).toPosition());
+        //PAWNS
+        this.board.placePiece(
+            new Pawn(this.board,Color.WHITE),
+            new ChessPosition('a',2).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.WHITE),
+            new ChessPosition('b',2).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.WHITE),
             new ChessPosition('c',2).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.WHITE),
+            new Pawn(this.board,Color.WHITE),
             new ChessPosition('d',2).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.WHITE),
+            new Pawn(this.board,Color.WHITE),
             new ChessPosition('e',2).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.WHITE),
-            new ChessPosition('e',1).toPosition());  
+            new Pawn(this.board,Color.WHITE),
+            new ChessPosition('f',2).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.WHITE),
+            new ChessPosition('g',2).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.WHITE),
+            new ChessPosition('h',2).toPosition());
+        
         this.board.placePiece(
             new King(this.board,Color.WHITE),
             new ChessPosition('d',1).toPosition());
         
+        
         //BLACKS
+        //ROOKS
         this.board.placePiece(
             new Rook(this.board,Color.BLACK),
+            new ChessPosition('a',8).toPosition());
+        this.board.placePiece(
+            new Rook(this.board,Color.BLACK),
+            new ChessPosition('h',8).toPosition());
+        
+        //PAWNS
+        this.board.placePiece(
+            new Pawn(this.board,Color.BLACK),
+            new ChessPosition('a',7).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.BLACK),
+            new ChessPosition('b',7).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.BLACK),
             new ChessPosition('c',7).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.BLACK),
-            new ChessPosition('c',8).toPosition());
-        this.board.placePiece(
-            new Rook(this.board,Color.BLACK),
+            new Pawn(this.board,Color.BLACK),
             new ChessPosition('d',7).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.BLACK),
+            new Pawn(this.board,Color.BLACK),
             new ChessPosition('e',7).toPosition());
         this.board.placePiece(
-            new Rook(this.board,Color.BLACK),
-            new ChessPosition('e',8).toPosition());
+            new Pawn(this.board,Color.BLACK),
+            new ChessPosition('f',7).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.BLACK),
+            new ChessPosition('g',7).toPosition());
+        this.board.placePiece(
+            new Pawn(this.board,Color.BLACK),
+            new ChessPosition('h',7).toPosition());
+        
         this.board.placePiece(
             new King(this.board,Color.BLACK),
             new ChessPosition('d',8).toPosition());
@@ -151,6 +195,14 @@ public class ChessMatch {
     
     public Color getCurrentPlayer() {
         return this.currentPlayer;
+    }
+
+    public void setLastPlayer(Color lastPlayer) {
+        this.lastPlayer = lastPlayer;
+    }
+
+    public Color getLastPlayer() {
+        return lastPlayer;
     }
     
 }
